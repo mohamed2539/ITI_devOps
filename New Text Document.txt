@@ -1,0 +1,120 @@
+
+<?php
+
+
+session_start();
+
+include 'Connection.php';
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    if(isset($_POST['login'])){
+        $uname = $_POST['username'];
+        $Pass = $_POST['pass'];
+
+
+        $quary = ("SELECT username,password FROM users WHERE username =? AND password =?");
+        $Statment = $conn->prepare($quary);
+        //$Statment->bindparam(":uname",$uname);
+        //$Statment->bindparam(":Pass",$Pass);
+        $Statment->execute(array($uname,$Pass));
+        $Count = $Statment->rowCount();
+        //$row = $Statment->fetchAll(PDO::FETCH_OBJ);
+
+
+        if($Count > 0){
+            echo '<script> window.location.href="DashBaord.php";</script>';
+            $_SESSION['user']=$uname;
+
+        }else{
+            echo '<span> أسمك المستخدم أو كلمة المرو غير صحيح</span>';
+
+        }
+
+    }
+
+
+
+}
+
+?>
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@700&family=Noto+Sans&family=Rubik&family=Tajawal:wght@700&family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Css/style.css">
+</head>
+<body>
+
+            <!---->
+            <div class="container" id="container">
+
+
+                <div class="form-container sign-up">
+                    <form action="">
+                        <h1>Create Account</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-solid fa-user"></i></a>
+                        <a href="#" class="icon"><i class="fa-solid fa-list"></i></i></a>
+                        <a href="#" class="icon"><i class="fa-solid fa-barcode"></i></a>
+                    </div>
+                        <span>or use your email for login</span>
+
+                    <input type="text" name="username" disabled placeholder="You should Ask your Admin to add you">
+
+                    <button>Sign Up</button>
+                    </form>
+                </div>
+                        <div class="form-container sign-in">
+                            <form action="" method="post">
+                                <h1>sign in</h1>
+                                <div class="social-icons">
+                                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                                    <a href="#" class="icon"><i class="fa-solid fa-user"></i></a>
+                                    <a href="#" class="icon"><i class="fa-solid fa-list"></i></i></a>
+                                    <a href="#" class="icon"><i class="fa-solid fa-barcode"></i></a>
+                                </div>
+                                <input type="text" name="username" placeholder="enter your name">
+                                <input type="password" name="pass" placeholder="enter your password">
+                                <button name="login">Sign in</button>
+                            </form>
+                        </div>
+
+                <div class="toggle-container">
+
+                    <div class="toggle">
+
+                        <div class="toggle-panel toggle-left">
+                            <h2>Welcome Back</h2>
+                            <p>please fill all field</p>
+                            <button class="heddin" id="Login">Sign In</button>
+                        </div>
+
+                        <div class="toggle-panel toggle-right">
+                            <h2>Hello There</h2>
+                            <p>Register for new usre</p>
+                            <button class="heddin" id="register">Sign Up</button>
+                        </div>
+
+            </div>
+            </div>
+            </div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
